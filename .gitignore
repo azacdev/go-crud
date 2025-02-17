@@ -1,0 +1,40 @@
+# Binaries
+*.exe
+*.o
+*.a
+*.so
+*.dylib
+
+# Build cache
+_obj/
+_test/
+**/_test/
+
+# Dependencies (Go modules)
+/vendor/
+
+# Environment variables
+.env
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*.DS_Store
+
+# GoLand project-related files (if using GoLand)
+*.iml
+
+# Temporary files
+*~
+# Test binary
+*.test
+
+# Coverage files
+*.out
+
+# Other
+/dist/
+/tmp/
+/build/
