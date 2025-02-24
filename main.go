@@ -8,11 +8,14 @@ import (
 
 func init() {
 	initializers.LoadEnvVariables()
+	initializers.ConnectToDB()
+	initializers.SyncDatabase()
 }
 
 func main() {
-	initializers.ConnectToDB()
 	r := gin.Default()
+
+	r.POST("/signup", controllers.Signup)
 
 	r.GET("/posts", controllers.GetPosts)
 	r.POST("/posts", controllers.CreatePost)
