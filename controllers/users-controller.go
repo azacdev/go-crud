@@ -8,7 +8,7 @@ import (
 	"github.com/azacdev/go-crud/initializers"
 	"github.com/azacdev/go-crud/models"
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt"
+	"github.com/golang-jwt/jwt/v4"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -82,16 +82,22 @@ func Login(c *gin.Context) {
 	})
 
 	// Sign and get the complete encoded token as a string using the secret
-	tokenString, err := token.SignedString(os.Getenv("SECRET"))
+	tokenString, err := token.SignedString([]byte(os.Getenv("SECRET")))
 
 	if err != nil {
-		c.JSON(http.StatusBadGateway, gin.H{"error": "Invalid to create token"})
+		c.JSON(http.StatusBadGateway, gin.H{"error": "Failed to create token"})
 		return
 	}
 
 	// Send it back
-	c.JSON(http.StatusOK, gin.H{
-		"token": tokenString,
-	})
+	c.SetSameSite(http.SameSiteLaxMode)
+	c.SetCookie("Authorisation", tokenString, 3600*24*30, "", "", false, true)
+	c.JSON(http.StatusOK, gin.H{})
 
+}
+
+func Validate(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"message": "I'm logged in",
+	})
 }
